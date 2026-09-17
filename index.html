@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hafso</title>
-  <head> 
   <link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Hafso">
-<link rel="apple-touch-icon" href="icon.png">
- </head>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Hafso">
+  <link rel="apple-touch-icon" href="icon.png">
   <style>
     :root {
       --bg-color: #121214;
@@ -173,7 +171,6 @@
       margin: 5px;
       font-size: 14px;
     }
-
     /* ========== GELİŞMİŞ ÇARK ========== */
     .wheel-container {
       position: relative;
@@ -243,7 +240,6 @@
       z-index: 10;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
     }
-
     /* Oyun alanları */
     .game-area {
       position: relative;
@@ -300,7 +296,6 @@
       font-weight: bold;
       font-size: 18px;
     }
-
     /* Puzzle */
     .puzzle-grid {
       display: grid;
@@ -344,7 +339,6 @@
       color: var(--accent-pink);
       margin: 8px 0;
     }
-
     /* Bilardo */
     .billiard-table {
       position: relative;
@@ -381,7 +375,6 @@
     .ball-yellow { background: #f1c40f; }
     .ball-blue { background: #3498db; }
     .ball-purple { background: #9b59b6; }
-
     /* RPS */
     .rps-choices {
       display: flex;
@@ -416,7 +409,16 @@
       margin: 15px 0;
       font-size: 42px;
     }
-
+    /* ========== SEVGİ ALANI ========== */
+    #sevgi-canvas {
+      width: 100%;
+      height: 420px;
+      background: #000;
+      border-radius: 16px;
+      border: 2px solid var(--accent-purple);
+      display: block;
+      margin: 10px 0;
+    }
     @media (max-width: 480px) {
       .btn { padding: 15px 18px; font-size: 15px; }
       .app-container { border-radius: 16px; margin: 0 4px; }
@@ -426,7 +428,6 @@
 </head>
 <body>
 <div class="app-container">
-
   <!-- AÇILIŞ -->
   <div id="intro-screen" class="screen active" style="justify-content: center; align-items: center; text-align: center;">
     <div class="brand-logo">ZO Games ✨</div>
@@ -459,9 +460,21 @@
       <button class="btn" onclick="showScreen('rps-screen')">✂️ Taş Kağıt Makas</button>
       <button class="btn" onclick="showScreen('calc-screen')">🧮 Hesap Makinesi</button>
       <button class="btn" onclick="playDecision()">🎲 1 mi 2 mi?</button>
+      <button class="btn" onclick="openSevgiAlani()">❤️ Sevgi Alanı</button>
       <button class="btn" style="background: linear-gradient(135deg, #d00000, #ff0054);" onclick="openModal('forbidden-modal-1')">🚫 Yasaklı Bölüm</button>
     </div>
     <button class="btn btn-secondary" style="margin-top: auto;" onclick="openModal('exit-modal')">Uygulamadan Çık</button>
+  </div>
+
+  <!-- ========== SEVGİ ALANI ========== -->
+  <div id="sevgi-screen" class="screen">
+    <h2>❤️ Sevgi Alanı</h2>
+    <p style="text-align:center; color:#aaa; margin-bottom:8px; font-size:14px;">
+      Senin için yavaş yavaş çiziliyor bebeğim 💜
+    </p>
+    <canvas id="sevgi-canvas"></canvas>
+    <button class="btn" onclick="restartHeart()">Yeniden Çiz ✨</button>
+    <button class="btn btn-secondary" onclick="showScreen('main-menu')">Ana Menüye Dön</button>
   </div>
 
   <!-- HESAP MAKİNESİ -->
@@ -553,15 +566,12 @@
       Sokulan: <span id="billiard-score">0</span> / 4
     </div>
     <div class="billiard-table" id="billiard-table">
-      <!-- Cepler -->
       <div class="pocket" style="top:4px; left:4px;"></div>
       <div class="pocket" style="top:4px; right:4px;"></div>
       <div class="pocket" style="bottom:4px; left:4px;"></div>
       <div class="pocket" style="bottom:4px; right:4px;"></div>
       <div class="pocket" style="top:50%; left:4px; transform:translateY(-50%);"></div>
       <div class="pocket" style="top:50%; right:4px; transform:translateY(-50%);"></div>
-
-      <!-- Toplar JS ile eklenecek -->
     </div>
     <p style="text-align:center; font-size:13px; color:#aaa;">Beyaz topu sürükleyip bırakarak vur!</p>
     <button class="btn" onclick="resetBilliard()">Yeniden Başlat</button>
@@ -584,7 +594,6 @@
     </div>
     <button class="btn btn-secondary" style="margin-top:auto;" onclick="showScreen('main-menu')">Ana Menüye Dön</button>
   </div>
-
 </div>
 
 <!-- MODALLAR -->
@@ -618,6 +627,7 @@
     <button class="btn" onclick="closeModal('forbidden-modal-1'); openModal('forbidden-modal-2');">BİLİYORUM DEVAM ET ✨</button>
   </div>
 </div>
+
 <div id="forbidden-modal-2" class="modal">
   <div class="modal-content">
     <p style="margin-bottom: 15px;">Sadece üzgünsen faydası dokunur 🩷</p>
@@ -625,6 +635,7 @@
     <button class="btn" onclick="closeModal('forbidden-modal-2'); openModal('forbidden-modal-3');">GERÇEKTEN ÜZGÜNÜM 🥺</button>
   </div>
 </div>
+
 <div id="forbidden-modal-3" class="modal">
   <div class="modal-content">
     <p style="margin-bottom: 15px; line-height: 1.5;">
@@ -633,6 +644,7 @@
     <button class="btn" onclick="closeModal('forbidden-modal-3'); showScreen('main-menu');">OKUDUM İYİLEŞTİM 🩷</button>
   </div>
 </div>
+
 <div id="exit-modal" class="modal">
   <div class="modal-content">
     <p style="margin-bottom: 15px;">Çıkma la az daha oynayalım sıkıldıysan özür dilerim 😭</p>
@@ -659,7 +671,6 @@
     e.preventDefault();
     openModal('login-modal');
   });
-
   const compliments = [
     "Bugün her zamankinden daha ışıl ışılsın ✨",
     "Gülüşün tüm evrenin en güzel manzarası 💜",
@@ -668,25 +679,108 @@
   ];
   document.getElementById('daily-compliment').innerText = compliments[Math.floor(Math.random() * compliments.length)];
 
-  // ========== ÇARK (Güzelleştirilmiş) ==========
+  // ========== SEVGİ ALANI (Kalp Animasyonu) ==========
+  let heartPoints = [];
+  let heartIndex = 0;
+  let heartTimer = null;
+
+  function openSevgiAlani() {
+    showScreen('sevgi-screen');
+    setTimeout(() => {
+      startHeartAnimation();
+    }, 300);
+  }
+
+  function startHeartAnimation() {
+    const canvas = document.getElementById('sevgi-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Canvas boyutunu ayarla
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * 2;   // retina için
+    canvas.height = 420 * 2;
+    ctx.scale(2, 2);
+
+    const centerX = rect.width / 2;
+    const centerY = 210;
+
+    // Noktaları temizle ve yeniden hesapla
+    heartPoints = [];
+
+    // İç kısım - Mor
+    for (let scale = 1; scale <= 11; scale++) {
+      for (let i = 0; i < 120; i++) {
+        const angle = i * (Math.PI * 2) / 120;
+        const x = 16 * Math.pow(Math.sin(angle), 3) * scale;
+        const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * scale;
+        heartPoints.push({
+          x: centerX + x * 1.7,
+          y: centerY + y * 1.7,
+          color: '#9b59b6',
+          size: 9
+        });
+      }
+    }
+
+    // Dış çerçeve - Gri
+    for (let scale = 12; scale <= 17; scale++) {
+      for (let i = 0; i < 120; i++) {
+        const angle = i * (Math.PI * 2) / 120;
+        const x = 16 * Math.pow(Math.sin(angle), 3) * scale;
+        const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * scale;
+        heartPoints.push({
+          x: centerX + x * 1.7,
+          y: centerY + y * 1.7,
+          color: '#a0a0a0',
+          size: 10
+        });
+      }
+    }
+
+    // Temizle ve başlat
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    heartIndex = 0;
+    if (heartTimer) clearTimeout(heartTimer);
+    drawNextHeart();
+  }
+
+  function drawNextHeart() {
+    if (heartIndex >= heartPoints.length) return;
+
+    const canvas = document.getElementById('sevgi-canvas');
+    const ctx = canvas.getContext('2d');
+    const p = heartPoints[heartIndex];
+
+    ctx.fillStyle = p.color;
+    ctx.font = `bold ${p.size}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('I love you', p.x, p.y);
+
+    heartIndex++;
+    heartTimer = setTimeout(drawNextHeart, 5); // Hız: 5ms (daha yavaş istersen 8-12 yap)
+  }
+
+  function restartHeart() {
+    startHeartAnimation();
+  }
+
+  // ========== ÇARK ==========
   const wheelItems = ["DANTEL", "SU", "SÜDYEN", "BOŞ", "ETEK", "SANTRAL", "ATEŞ"];
   const colors = ["#9d4edd", "#ff70a6", "#ff4d6d", "#7b2cbf", "#c77dff", "#e0aaff", "#ff85a1"];
   let currentRotation = 0;
   let isSpinning = false;
-
   function createWheel() {
     const wheel = document.getElementById('wheel');
     wheel.innerHTML = '';
     const n = wheelItems.length;
     const angle = 360 / n;
-
     wheelItems.forEach((item, i) => {
       const section = document.createElement('div');
       section.className = 'wheel-section';
       section.style.background = `linear-gradient(135deg, ${colors[i]}, ${colors[(i+1)%n]})`;
       section.style.transform = `rotate(${i * angle}deg)`;
       section.style.clipPath = `polygon(0 0, 100% 0, 0 100%)`;
-
       const text = document.createElement('div');
       text.textContent = item;
       text.style.transform = `rotate(${angle/2}deg)`;
@@ -697,13 +791,11 @@
       wheel.appendChild(section);
     });
   }
-
   function openSinirBozma() {
     document.getElementById('wheel-result').innerText = '';
     createWheel();
     openModal('sinir-modal');
   }
-
   function spinWheel() {
     if (isSpinning) return;
     isSpinning = true;
@@ -719,10 +811,9 @@
     }, 4600);
   }
 
-  // ========== PUZZLE + SÜRE ==========
+  // ========== PUZZLE ==========
   let puzzleSize = 3, selectedPiece = null, currentPuzzleSrc = null;
   let puzzleTimer = null, puzzleSeconds = 0, puzzleRunning = false;
-
   function setPuzzleLevel(size) {
     puzzleSize = size;
     document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
@@ -730,7 +821,6 @@
     if (currentPuzzleSrc) createPuzzle(currentPuzzleSrc);
     else document.getElementById('puzzle-msg').innerText = size + '×' + size + ' seçildi. Fotoğraf yükle!';
   }
-
   function startPuzzleTimer() {
     stopPuzzleTimer();
     puzzleSeconds = 0;
@@ -741,18 +831,15 @@
       updateTimerDisplay();
     }, 1000);
   }
-
   function stopPuzzleTimer() {
     if (puzzleTimer) clearInterval(puzzleTimer);
     puzzleRunning = false;
   }
-
   function updateTimerDisplay() {
     const m = String(Math.floor(puzzleSeconds / 60)).padStart(2, '0');
     const s = String(puzzleSeconds % 60).padStart(2, '0');
     document.getElementById('puzzle-timer').innerText = `Süre: ${m}:${s}`;
   }
-
   function loadPuzzleImage(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -763,20 +850,17 @@
     };
     reader.readAsDataURL(file);
   }
-
   function createPuzzle(src) {
     const container = document.getElementById('puzzle-container');
     container.innerHTML = '';
     container.style.display = 'grid';
     container.style.gridTemplateColumns = `repeat(${puzzleSize}, 1fr)`;
     container.style.maxWidth = puzzleSize <= 3 ? '340px' : (puzzleSize === 4 ? '360px' : '380px');
-
     let positions = Array.from({length: puzzleSize*puzzleSize}, (_, i) => i);
     for (let i = positions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [positions[i], positions[j]] = [positions[j], positions[i]];
     }
-
     const step = 100 / (puzzleSize - 1);
     positions.forEach((pos, index) => {
       const piece = document.createElement('div');
@@ -790,12 +874,10 @@
       piece.onclick = () => swapPuzzle(index);
       container.appendChild(piece);
     });
-
     document.getElementById('puzzle-msg').innerText = `${puzzleSize}×${puzzleSize} — Parçalara tıkla!`;
     selectedPiece = null;
     startPuzzleTimer();
   }
-
   function swapPuzzle(index) {
     const pieces = document.querySelectorAll('.puzzle-piece');
     if (selectedPiece === null) {
@@ -813,7 +895,6 @@
       checkPuzzleWin();
     }
   }
-
   function checkPuzzleWin() {
     const pieces = document.querySelectorAll('.puzzle-piece');
     let win = true;
@@ -826,20 +907,18 @@
     }
   }
 
-  // ========== SKOR SİSTEMİ (Çiçek & Canii) ==========
+  // ========== SKOR SİSTEMİ ==========
   let scores = {
     cicek: parseInt(localStorage.getItem('cicekHigh') || '0'),
     canii: parseInt(localStorage.getItem('caniiHigh') || '0')
   };
   let currentScores = { cicek: 0, canii: 0 };
-
   function updateScoreDisplay(type) {
     document.getElementById(type + '-score').innerText = currentScores[type];
     document.getElementById(type + '-high').innerText = scores[type];
   }
   updateScoreDisplay('cicek');
   updateScoreDisplay('canii');
-
   function addScore(type) {
     currentScores[type]++;
     if (currentScores[type] > scores[type]) {
@@ -854,7 +933,6 @@
     cicek: { x: 30, y: 220, vx: 0, vy: 0, dragging: false, startX: 0, startY: 0, flying: false },
     canii: { x: 30, y: 220, vx: 0, vy: 0, dragging: false, startX: 0, startY: 0, flying: false }
   };
-
   function loadThrowImage(e, type) {
     const file = e.target.files[0];
     if (!file) return;
@@ -866,7 +944,6 @@
     };
     reader.readAsDataURL(file);
   }
-
   function loadTargetImage(e, type) {
     const file = e.target.files[0];
     if (!file) return;
@@ -878,19 +955,16 @@
     };
     reader.readAsDataURL(file);
   }
-
   function resetThrow(type) {
     const st = throwState[type];
     st.x = 30; st.y = 220; st.vx = 0; st.vy = 0; st.flying = false;
     updateObjectPos(type);
   }
-
   function updateObjectPos(type) {
     const obj = document.getElementById(type + '-object');
     obj.style.left = throwState[type].x + 'px';
     obj.style.top = throwState[type].y + 'px';
   }
-
   function setupThrow(type) {
     const area = document.getElementById(type + '-area');
     const start = (e) => {
@@ -936,7 +1010,6 @@
     area.addEventListener('touchend', end, {passive:false});
     updateObjectPos(type);
   }
-
   function animateThrow(type) {
     const st = throwState[type];
     const area = document.getElementById(type + '-area');
@@ -973,29 +1046,23 @@
     requestAnimationFrame(frame);
   }
 
-  // ========== BİLARDO OYUNU ==========
+  // ========== BİLARDO ==========
   let balls = [];
   let billiardScore = 0;
   let cueDragging = false;
   let cueStart = {x:0, y:0};
-
   function initBilliard() {
     const table = document.getElementById('billiard-table');
-    // Eski topları temizle
     table.querySelectorAll('.ball').forEach(b => b.remove());
     balls = [];
     billiardScore = 0;
     document.getElementById('billiard-score').innerText = '0';
-
-    // Beyaz top (cue)
     createBall(60, 140, 'cue-ball', true);
-    // Renkli toplar
     createBall(220, 100, 'ball-red');
     createBall(250, 140, 'ball-yellow');
     createBall(220, 180, 'ball-blue');
     createBall(280, 140, 'ball-purple');
   }
-
   function createBall(x, y, cls, isCue = false) {
     const table = document.getElementById('billiard-table');
     const el = document.createElement('div');
@@ -1008,15 +1075,11 @@
       isCue, radius: 11, pocketed: false
     });
   }
-
   function resetBilliard() {
     initBilliard();
   }
-
-  // Cue ball sürükleme
   document.getElementById('billiard-table').addEventListener('mousedown', startCue);
   document.getElementById('billiard-table').addEventListener('touchstart', startCue, {passive:false});
-
   function startCue(e) {
     e.preventDefault();
     const cue = balls.find(b => b.isCue && !b.pocketed);
@@ -1029,14 +1092,12 @@
       cueStart = {x: cx, y: cy};
     }
   }
-
   document.addEventListener('mousemove', moveCue);
   document.addEventListener('touchmove', moveCue, {passive:false});
   function moveCue(e) {
     if (!cueDragging) return;
     e.preventDefault();
   }
-
   document.addEventListener('mouseup', endCue);
   document.addEventListener('touchend', endCue);
   function endCue(e) {
@@ -1051,27 +1112,21 @@
     cue.vy = (cueStart.y - cy) * 0.25;
     animateBilliard();
   }
-
   function animateBilliard() {
     const table = document.getElementById('billiard-table');
     const w = table.clientWidth;
     const h = table.clientHeight;
     let moving = false;
-
     balls.forEach(b => {
       if (b.pocketed) return;
       b.x += b.vx;
       b.y += b.vy;
       b.vx *= 0.985;
       b.vy *= 0.985;
-
-      // Duvar
       if (b.x < 0) { b.x = 0; b.vx *= -0.8; }
       if (b.x > w - 22) { b.x = w - 22; b.vx *= -0.8; }
       if (b.y < 0) { b.y = 0; b.vy *= -0.8; }
       if (b.y > h - 22) { b.y = h - 22; b.vy *= -0.8; }
-
-      // Cep kontrolü
       const pockets = [
         [10,10], [w-32,10], [10,h-32], [w-32,h-32],
         [10, h/2-14], [w-32, h/2-14]
@@ -1087,7 +1142,6 @@
               setTimeout(() => alert('TEBRİKLER! Tüm topları soktun 🎱✨'), 300);
             }
           } else {
-            // Cue ball dropped → reset position
             setTimeout(() => {
               b.pocketed = false;
               b.el.style.display = 'block';
@@ -1099,14 +1153,10 @@
           break;
         }
       }
-
       b.el.style.left = b.x + 'px';
       b.el.style.top = b.y + 'px';
-
       if (Math.abs(b.vx) > 0.1 || Math.abs(b.vy) > 0.1) moving = true;
     });
-
-    // Top çarpışmaları (basit)
     for (let i = 0; i < balls.length; i++) {
       for (let j = i + 1; j < balls.length; j++) {
         const a = balls[i], b = balls[j];
@@ -1118,7 +1168,6 @@
           const p = 2 * (a.vx * nx + a.vy * ny - b.vx * nx - b.vy * ny) / 2;
           a.vx -= p * nx; a.vy -= p * ny;
           b.vx += p * nx; b.vy += p * ny;
-          // Ayır
           const overlap = 22 - dist;
           a.x -= nx * overlap / 2;
           a.y -= ny * overlap / 2;
@@ -1127,7 +1176,6 @@
         }
       }
     }
-
     if (moving) requestAnimationFrame(animateBilliard);
   }
 
@@ -1140,7 +1188,6 @@
     if (parseInt(choice) === assigned) alert(`Doğru! Mesaj ${assigned}. kutudaydı: "${msg}" ✨`);
     else alert(`Bilemedin! Asıl ${assigned}. kutudaydı: "${msg}" 🩷`);
   }
-
   let calcExpr = '';
   function calcInput(v) { calcExpr += v; document.getElementById('calc-display').value = calcExpr; }
   function clearCalc() { calcExpr = ''; document.getElementById('calc-display').value = ''; }
@@ -1148,7 +1195,6 @@
     try { calcExpr = eval(calcExpr).toString(); document.getElementById('calc-display').value = calcExpr; }
     catch { document.getElementById('calc-display').value = 'Hata'; calcExpr = ''; }
   }
-
   function playRPSGame(user) {
     const opts = ['taş','kağıt','makas'];
     const emo = {taş:'✊', kağıt:'🖐️', makas:'✌️'};
